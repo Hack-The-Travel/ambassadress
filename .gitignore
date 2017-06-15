@@ -1,0 +1,6 @@
+*.py[co]
+.ve_sms
+.DS_Store
+.idea
+*.egg
+*.egg-info
