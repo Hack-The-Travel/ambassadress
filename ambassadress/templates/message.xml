@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <request>
     <security>
-        <token value="e04eeba52f0aa5d8bfc5ad692f6e7d43b4e16e30"/>
+        <token value="{{ security_token }}"/>
     </security>
     <message type="sms">
         <sender>REDSMS.RU</sender>
