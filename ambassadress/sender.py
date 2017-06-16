@@ -8,7 +8,7 @@ basedir = os.path.dirname(os.path.abspath(__file__))
 
 
 class SmsClient(object):
-    def __init__(self, token, sender='REDSMS.ru'):
+    def __init__(self, token, sender='REDSMS.RU'):
         self.__token = token
         self.__sender = sender
         self.__gateway = 'https://adm.redsms.ru/xml/'
