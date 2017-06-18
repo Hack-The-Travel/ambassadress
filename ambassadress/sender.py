@@ -11,7 +11,7 @@ class SmsClient(object):
     def __init__(self, token, sender='REDSMS.RU'):
         self.__token = token
         self.__sender = sender
-        self.__gateway = 'https://adm.redsms.ru/xml/'
+        self.__gateway = 'http://adm.redsms.ru/xml/'
         template_dir = '/'.join([basedir, 'templates'])
         self.__template_env = Environment(loader=FileSystemLoader(template_dir))
 
