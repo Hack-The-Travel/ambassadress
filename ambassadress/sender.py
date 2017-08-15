@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
-from utils import generate_signature, now
+from _internal_utils import generate_signature, now
 
 
 class SmsClient(object):

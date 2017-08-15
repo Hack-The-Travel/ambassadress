@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-ambassadress.utils
-~~~~~~~~~~~~~~~~~~
+ambassadress._internal_utils
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This module provides utility functions that are used within ambassadress
-that are also useful for external consumption.
+Provides utility functions that are consumed internally by ambassadress.
 """
 
 from hashlib import md5

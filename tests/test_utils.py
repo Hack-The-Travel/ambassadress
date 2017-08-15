@@ -2,7 +2,7 @@
 from hashlib import md5
 import random, string
 import requests
-from ambassadress.utils import generate_signature, now
+from ambassadress._internal_utils import generate_signature, now
 
 
 def random_string(length):
