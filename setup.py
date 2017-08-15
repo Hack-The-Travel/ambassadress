@@ -23,6 +23,5 @@ setup(
     zip_safe=False,
     install_requires=[
         'requests==2.18.1',
-        'Jinja2==2.9.6',
     ],
 )
