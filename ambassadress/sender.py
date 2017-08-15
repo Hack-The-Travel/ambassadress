@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import requests
 from utils import generate_signature, now
 
@@ -28,3 +27,6 @@ class SmsClient(object):
         request_params['signature'] = signature
         r = requests.get(self.gateway + service, params=request_params)
         return r.content
+
+    def get_balance(self):
+        print self._call('balance.php')
