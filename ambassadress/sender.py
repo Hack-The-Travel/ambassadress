@@ -10,12 +10,6 @@ class SmsClient(object):
         self.login = login
         self.api_key = api_key
         self.sender = sender
-        self.timestamp = None
-
-    def _sync_time(self):
-        """Set __timestamp property."""
-        self.timestamp = now()
-        return self.timestamp
 
     def _call(self, service, params=None):
         if params is not None:
