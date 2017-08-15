@@ -8,6 +8,7 @@ that are also useful for external consumption.
 """
 
 from hashlib import md5
+import time
 
 
 def generate_signature(params, api_key):
@@ -21,3 +22,14 @@ def generate_signature(params, api_key):
     for key, value in sorted(params.items()):
         params_str += str(value)
     return md5(params_str + api_key).hexdigest()
+
+
+def now():
+    """Returns redsms timestamp.
+
+    The return value is UTC timestamp minus 3 hours.
+    Although the documentation says that on the side of the redsms,
+    time is set in the UTC.
+    """
+    three_hours = 3 * 60 * 60
+    return int(time.time()) - three_hours

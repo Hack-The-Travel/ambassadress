@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import requests
+from utils import now
 from jinja2 import Environment, FileSystemLoader
 
 
@@ -13,9 +14,24 @@ class SmsClient(object):
         self.__login = login
         self.__api_key = api_key
         self.__sender = sender
+        self.__timestamp = None
         self.__token = ''                                                         # deprecated
         template_dir = '/'.join([basedir, 'templates'])                           # deprecated
         self.__template_env = Environment(loader=FileSystemLoader(template_dir))  # deprecated
+
+    def __sync_time(self):
+        """Set __timestamp property."""
+        self.__timestamp = now()
+
+    def get_time(self):
+        """Returns the value of __timestamp property.
+
+         The return value was calculated now (in case there was no API calls before)
+         or was calculated in processing of the last API call.
+         """
+        if self.__timestamp is None:
+            self.__sync_time()
+        return self.__timestamp
 
     def __call(self, template_filename, context):
         context['security_token'] = self.__token
