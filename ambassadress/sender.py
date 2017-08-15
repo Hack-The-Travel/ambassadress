@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
+import json
 from utils import generate_signature, now
 
 
@@ -26,7 +27,7 @@ class SmsClient(object):
         signature = generate_signature(request_params, self.api_key)
         request_params['signature'] = signature
         r = requests.get(self.gateway + service, params=request_params)
-        return r.content
+        return json.loads(r.content)
 
     def get_balance(self):
-        print self._call('balance.php')
+        return self._call('balance.php')['money']
