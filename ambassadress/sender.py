@@ -20,7 +20,7 @@ class SmsClient(object):
         request_params['timestamp'] = now()
         signature = generate_signature(request_params, self.api_key)
         request_params['signature'] = signature
-        r = requests.get(self.gateway + service + '.php', params=request_params)
+        r = requests.get(self.gateway + service + '.php', params=request_params, verify=False)
         return json.loads(r.content)
 
     def get_balance(self):
