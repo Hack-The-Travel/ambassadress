@@ -1,33 +1,35 @@
 # -*- coding: utf-8 -*-
-import os
 import requests
-from jinja2 import Environment, FileSystemLoader
-
-
-basedir = os.path.dirname(os.path.abspath(__file__))
+import json
+from _internal_utils import generate_signature, now
 
 
 class SmsClient(object):
-    def __init__(self, token, sender='REDSMS.RU'):
-        self.__token = token
-        self.__sender = sender
-        self.__gateway = 'http://adm.redsms.ru/xml/'
-        template_dir = '/'.join([basedir, 'templates'])
-        self.__template_env = Environment(loader=FileSystemLoader(template_dir))
+    def __init__(self, login, api_key, sender='REDSMS.RU'):
+        self.gateway = 'https://lk.redsms.ru/get/'
+        self.login = login
+        self.api_key = api_key
+        self.sender = sender
 
-    def __call(self, template_filename, context):
-        context['security_token'] = self.__token
-        context['sender'] = self.__sender
-        template = self.__template_env.get_template(template_filename)
-        request = template.render(context)
-        headers = {'Content-Type': 'text/xml; charset=utf-8'}
-        r = requests.post(self.__gateway, headers=headers, data=request.encode('utf-8'))
-        return r.content
+    def _call(self, service, params=None):
+        if params is not None:
+            request_params = params.copy()
+        else:
+            request_params = dict()
+        request_params['login'] = self.login
+        request_params['timestamp'] = now()
+        signature = generate_signature(request_params, self.api_key)
+        request_params['signature'] = signature
+        r = requests.get(self.gateway + service + '.php', params=request_params)
+        return json.loads(r.content)
+
+    def get_balance(self):
+        return self._call('balance')['money']
 
     def send(self, to, message):
-        context = {
-            'to': to,
-            'message': message.decode('utf-8'),
+        params = {
+            'sender': self.sender,
+            'phone': to,
+            'text': message,
         }
-        response = self.__call('message.xml', context)
-        print response
+        self._call('send', params=params)
