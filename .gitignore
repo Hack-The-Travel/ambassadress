@@ -1,6 +1,10 @@
 *.py[co]
-.ve_sms
-.DS_Store
-.idea
+.DS_*
 *.egg
-*.egg-info
+*.egg-info/
+.eggs/
+.cache/
+
+# Mr Developer
+.idea
+.ve_sms
