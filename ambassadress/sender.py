@@ -23,11 +23,19 @@ class SmsClient(object):
         else:
             request_params = dict()
         request_params['login'] = self.login
-        request_params['timestamp'] = self._sync_time()
+        request_params['timestamp'] = now()
         signature = generate_signature(request_params, self.api_key)
         request_params['signature'] = signature
-        r = requests.get(self.gateway + service, params=request_params)
+        r = requests.get(self.gateway + service + '.php', params=request_params)
         return json.loads(r.content)
 
     def get_balance(self):
-        return self._call('balance.php')['money']
+        return self._call('balance')['money']
+
+    def send(self, to, message):
+        params = {
+            'sender': self.sender,
+            'phone': to,
+            'text': message,
+        }
+        self._call('send', params=params)
