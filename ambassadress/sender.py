@@ -8,12 +8,14 @@ basedir = os.path.dirname(os.path.abspath(__file__))
 
 
 class SmsClient(object):
-    def __init__(self, token, sender='REDSMS.RU'):
-        self.__token = token
+    def __init__(self, login, api_key, sender='REDSMS.RU'):
+        self.__gateway = 'http://lik.redsms.ru/'
+        self.__login = login
+        self.__api_key = api_key
         self.__sender = sender
-        self.__gateway = 'http://adm.redsms.ru/xml/'
-        template_dir = '/'.join([basedir, 'templates'])
-        self.__template_env = Environment(loader=FileSystemLoader(template_dir))
+        self.__token = ''                                                         # deprecated
+        template_dir = '/'.join([basedir, 'templates'])                           # deprecated
+        self.__template_env = Environment(loader=FileSystemLoader(template_dir))  # deprecated
 
     def __call(self, template_filename, context):
         context['security_token'] = self.__token
