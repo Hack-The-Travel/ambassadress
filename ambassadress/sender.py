@@ -19,7 +19,7 @@ class SmsClient(object):
         template_dir = '/'.join([basedir, 'templates'])                           # deprecated
         self.__template_env = Environment(loader=FileSystemLoader(template_dir))  # deprecated
 
-    def __sync_time(self):
+    def _sync_time(self):
         """Set __timestamp property."""
         self.__timestamp = now()
 
