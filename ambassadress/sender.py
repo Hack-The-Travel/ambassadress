@@ -42,5 +42,6 @@ class SmsClient(object):
             'from': self.sender,
             'to': to,
             'text': message,
+            'route': 'sms',
         }
         self._call('/message', params=params)
