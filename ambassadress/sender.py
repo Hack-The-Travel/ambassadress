@@ -34,7 +34,7 @@ class SmsClient(object):
         rs = self._call('/client/info', method='GET')
         info = rs.get('info', None)
         if info is not None and isinstance(info, dict):
-            return info.get('balance', None)
+            return float(info.get('balance', None))
         return None
 
     def send(self, to, message):
