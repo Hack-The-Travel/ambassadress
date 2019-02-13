@@ -38,6 +38,7 @@ class SmsClient(object):
         return None
 
     def send(self, to, message):
+        """Send sms message."""
         params = {
             'from': self.sender,
             'to': to,
