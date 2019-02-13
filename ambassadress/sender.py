@@ -12,7 +12,7 @@ class SmsClient(object):
         self.api_key = api_key
         self.sender = sender
 
-    def _call(self, service, params=None):
+    def _call(self, service, params=None, method='POST'):
         ts = str(uuid.uuid4())  # use UUID as unique value instead of time stamp
         headers = {
             'Content-type': 'application/json',
@@ -21,12 +21,16 @@ class SmsClient(object):
             'secret': generate_secret(ts, self.api_key),
         }
         request_params = params.copy() if params is not None else {}
-        r = requests.post(self.gateway + service, headers=headers, json=request_params, verify=False)
+        r = requests.request(method, self.gateway + service, headers=headers, json=request_params, verify=False)
         r.raise_for_status()
         return json.loads(r.content)
 
     def get_balance(self):
-        return self._call('balance')['money']
+        rs = self._call('/client/info', method='GET')
+        info = rs.get('info', None)
+        if info is not None and isinstance(info, dict):
+            return info.get('balance', None)
+        return None
 
     def send(self, to, message):
         params = {
