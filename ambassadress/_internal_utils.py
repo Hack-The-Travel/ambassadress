@@ -18,7 +18,7 @@ def generate_secret(ts, api_key):
     :type ts: str
     :param api_key: API key, it can be configured in the settings (https://cp.redsms.ru/settings/)
     :type api_key: str
-    :returns: value for request header `secret` field
+    :return: value for request header `secret` field
     :rtype: str
     """
     return md5(ts + api_key).hexdigest()
