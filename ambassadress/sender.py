@@ -1,26 +1,28 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
-from _internal_utils import generate_signature, now
+from _internal_utils import generate_signature, now, generate_secret
+import uuid
 
 
 class SmsClient(object):
     def __init__(self, login, api_key, sender='REDSMS.RU'):
-        self.gateway = 'https://lk.redsms.ru/get/'
+        self.gateway = 'https://cp.redsms.ru/api'
         self.login = login
         self.api_key = api_key
         self.sender = sender
 
     def _call(self, service, params=None):
-        if params is not None:
-            request_params = params.copy()
-        else:
-            request_params = dict()
-        request_params['login'] = self.login
-        request_params['timestamp'] = now()
-        signature = generate_signature(request_params, self.api_key)
-        request_params['signature'] = signature
-        r = requests.get(self.gateway + service + '.php', params=request_params, verify=False)
+        ts = str(uuid.uuid4())  # use UUID as unique value instead of time stamp
+        headers = {
+            'Content-type': 'application/json',
+            'login': self.login,
+            'ts': ts,
+            'secret': generate_secret(ts, self.api_key),
+        }
+        request_params = params.copy() if params is not None else {}
+        r = requests.post(self.gateway + service, headers=headers, json=request_params, verify=False)
+        r.raise_for_status()
         return json.loads(r.content)
 
     def get_balance(self):
@@ -28,8 +30,8 @@ class SmsClient(object):
 
     def send(self, to, message):
         params = {
-            'sender': self.sender,
-            'phone': to,
+            'from': self.sender,
+            'to': to,
             'text': message,
         }
-        self._call('send', params=params)
+        self._call('/message', params=params)
