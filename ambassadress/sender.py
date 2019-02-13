@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
-from _internal_utils import generate_signature, now, generate_secret
+from _internal_utils import generate_secret
 import uuid
 
 
