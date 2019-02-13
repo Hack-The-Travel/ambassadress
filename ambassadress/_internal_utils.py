@@ -32,3 +32,18 @@ def now():
     """
     three_hours = 3 * 60 * 60
     return int(time.time()) - three_hours
+
+
+def generate_secret(ts, api_key):
+    """Return secret for simple RedSMS auth.
+
+    https://cp.redsms.ru/reference/api#auth
+
+    :param ts: value of request header `ts` field
+    :type ts: str
+    :param api_key: API key, it can be configured in the settings (https://cp.redsms.ru/settings/)
+    :type api_key: str
+    :returns: value for request header `secret` field
+    :rtype: str
+    """
+    return md5(ts + api_key).hexdigest()
