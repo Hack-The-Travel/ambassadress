@@ -1,5 +1,5 @@
 __title__ = 'ambassadress'
-__description__ = 'Client for RedSMS GET API.'
+__description__ = 'Client for RedSms, https://redsms.ru'
 __url__ = 'https://github.com/Hack-The-Travel/ambassadress'
 __version__ = '0.0.2'
 __author__ = 'Sergey Popinevskiy'
