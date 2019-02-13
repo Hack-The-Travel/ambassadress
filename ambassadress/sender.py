@@ -26,6 +26,11 @@ class SmsClient(object):
         return json.loads(r.content)
 
     def get_balance(self):
+        """Return RedSms balance.
+
+        :return: balance
+        :rtype: float or None
+        """
         rs = self._call('/client/info', method='GET')
         info = rs.get('info', None)
         if info is not None and isinstance(info, dict):
